@@ -1,7 +1,18 @@
 pipeline {
     agent any
 
+    tools {
+        terraform 'terraform'
+    }
+
     stages {
+
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/Alanatk/terraform-jenkins.git'
+            }
+        }
 
         stage('Terraform Init') {
             steps {
@@ -25,6 +36,16 @@ pipeline {
             steps {
                 sh 'terraform apply -auto-approve'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Terraform Deployment Successful'
+        }
+
+        failure {
+            echo 'Terraform Deployment Failed'
         }
     }
 }
