@@ -1,0 +1,53 @@
+provider "aws" {
+  region = "ap-south-2"
+}
+
+resource "aws_security_group" "terraform_sg" {
+  name        = "terraform-sg"
+  description = "Security group for Terraform Jenkins project"
+
+  ingress {
+    description = "SSH Access"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTP Access"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Jenkins Access"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "terraform-sg"
+  }
+}
+
+resource "aws_instance" "terraform_ec2" {
+  ami                    = "ami-02d26659fd82cf299"
+  instance_type          = "t3.micro"
+  vpc_security_group_ids = [aws_security_group.terraform_sg.id]
+
+  tags = {
+    Name = "Terraform-Jenkins-EC2"
+  }
+}
