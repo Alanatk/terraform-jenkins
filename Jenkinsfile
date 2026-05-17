@@ -1,11 +1,13 @@
 pipeline {
     agent any
 
-    tools {
-        terraform 'terraform'
-    }
-
     stages {
+
+        stage('Check Terraform') {
+            steps {
+                sh 'terraform version'
+            }
+        }
 
         stage('Git Checkout') {
             steps {
