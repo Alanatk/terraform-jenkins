@@ -5,7 +5,8 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/Alanatk/terraform-jenkins.git'
+                git branch: 'main',
+                url: 'https://github.com/Alanatk/terraform-jenkins.git'
             }
         }
 
