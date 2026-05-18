@@ -22,6 +22,12 @@ pipeline {
             }
         }
 
+        stage('Terraform Destroy Old Resources') {
+            steps {
+                sh 'terraform destroy -auto-approve || true'
+            }
+        }
+
         stage('Terraform Plan') {
             steps {
                 sh 'terraform plan'
