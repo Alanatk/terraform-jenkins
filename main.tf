@@ -19,8 +19,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_security_group" "terraform_sg" {
-  name = "terraform-sg"
-
+name = "terraform-sg-2"
   ingress {
     description = "SSH"
     from_port   = 22
