@@ -3,28 +3,15 @@ pipeline {
 
     stages {
 
-        stage('Check Terraform') {
+        stage('Checkout') {
             steps {
-                sh 'terraform version'
-            }
-        }
-
-        stage('Git Checkout') {
-            steps {
-                git branch: 'main',
-                url: 'https://github.com/Alanatk/terraform-jenkins.git'
+                git 'https://github.com/Alanatk/terraform-jenkins.git'
             }
         }
 
         stage('Terraform Init') {
             steps {
                 sh 'terraform init'
-            }
-        }
-
-        stage('Terraform Validate') {
-            steps {
-                sh 'terraform validate'
             }
         }
 
@@ -38,16 +25,6 @@ pipeline {
             steps {
                 sh 'terraform apply -auto-approve'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Terraform Deployment Successful'
-        }
-
-        failure {
-            echo 'Terraform Deployment Failed'
         }
     }
 }
